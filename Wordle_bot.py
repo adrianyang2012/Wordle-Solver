@@ -97,6 +97,7 @@ while True:
   #print('trace')
   pyautogui.moveTo(3000, 1000)
 
+
   pyautogui.click()
   pyautogui.write('trace', interval=0.25)
   pyautogui.press('enter')
