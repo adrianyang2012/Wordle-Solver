@@ -137,7 +137,6 @@ while True:
     for i in range(0,len(words_now)):
       ai_guess = words_now[i]
 
-      #print(ai_guess)
       pyautogui.write(ai_guess, interval=0.25)
       pyautogui.press('enter')
       time.sleep(3)
