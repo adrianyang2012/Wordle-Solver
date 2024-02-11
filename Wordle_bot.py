@@ -26,7 +26,6 @@ import nltk
 nltk.download('words')
 word_list = [w.lower() for w in list(nltk.corpus.words.words()) if len(w) == 5]
 #word_list = ['trace','aread','cried','dried','fried']
-real_word_list = word_list[:]
 
 
 def possible_words(word, answer):
@@ -91,12 +90,8 @@ def possible_words(word, answer):
               pass
               
 while True:
-  import nltk
-  nltk.download('words')
-  nltk.download('wordnet')
-  word_list = [w.lower() for w in list(nltk.corpus.words.words())+list(nltk.corpus.wordnet.words()) if len(w) == 5]
-  #word_list = ['trace','aread','cried','dried','fried']
   real_word_list = word_list[:]
+
   prev_guess = 'trace'
   pyautogui.press('enter')
   #print('trace')
@@ -137,6 +132,7 @@ while True:
     for i in range(0,len(words_now)):
       ai_guess = words_now[i]
 
+
       pyautogui.write(ai_guess, interval=0.25)
       pyautogui.press('enter')
       time.sleep(3)
@@ -175,6 +171,7 @@ while True:
         
         time.sleep(0.1)
       real_word_list.remove(ai_guess)
+      word_list.remove(ai_guess)
 
     prev_guess= ai_guess
     try_num+=1
