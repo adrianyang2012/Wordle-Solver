@@ -12,3 +12,4 @@ I made this by using nltk to store all the words and using pyautogui to automati
 
 ## How to use it
 To use this, you first need to install an ad blocker. Then, you need to split the code and the wordle window in half like this: 
+![Wordle screen on one half and code on the other](wordle.png?raw=true)
