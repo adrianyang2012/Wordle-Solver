@@ -4,21 +4,27 @@ import time
 while True:
     time.sleep(0.1)
     im = pyautogui.screenshot()
+    #print(pyautogui.position())
     print(im.getpixel(pyautogui.position()))
 '''
-positions_of_squares = [(2492,2658,2821,2991,3155),(549,712,877,1047,1218,1390)]
-
+wordle_type = 'unlimited'
+if wordle_type == 'unlimited':
+  positions_of_squares = [(2494,2655,2814,2960,3110),(484,626,790,949,1097,1240)]
+else:
+  positions_of_squares = [(2503,2652,2804,2959,3110),(674,813,968,1138,1286,1445)]
 
 import nltk
 nltk.download('words')
 word_list = [w.lower() for w in list(nltk.corpus.words.words()) if len(w) == 5]
-word_list = ['trace','aread','cried','dried','fried']
+print("drank" in word_list)
+#word_list = ['trace','aread','cried','dried','fried']
 real_word_list = word_list[:]
 def possible_words(word, answer):
   global real_word_list
   greens = []
   yellows = []
   greys = []
+  print(answer)
   for i in range(0, len(answer)):
     if answer[i] == 'y':
       greens.append(i)
@@ -52,26 +58,25 @@ def possible_words(word, answer):
             if test_word[yellows[j]] == word[yellows[j]]:
               try:
                 real_word_list.remove(test_word)
-                rows.remove(idx)
+                print(test_word)
                 
               except:
                 pass
           else:
             if test_word[idx] == word[yellows[j]]:
-              rows.remove(idx)
               is_it_in = 1
+              if not is_it_in:
+                rows.remove(idx)
+
       if is_it_in == 0:
         try:
           real_word_list.remove(test_word)
         except:
           pass
-      else:
-        rows.remove(yellows[j])
     
     for j in range(0,len(greys)):
       for idx in range(0,len(test_word)):
-        print(rows,i,j,idx)
-        if greys[j] in rows:
+        if idx in rows:
           if word[greys[j]] == test_word[idx]:
             try:
               real_word_list.remove(test_word)
@@ -90,16 +95,16 @@ screenshot = pyautogui.screenshot()
 ans = ''
 for i in range(0,5):
     color = screenshot.getpixel((positions_of_squares[0][i],positions_of_squares[1][0]))
-    if color == (255,255,255):
+    if color == (255,255,255) or color==(251,252,255):
       real_word = False
-    elif color == (198,180,81) or color == (201,180,88):
+    elif color == (198,180,81) or color == (201,180,88) or color==(238,193,33):
       ans +='p'
-    elif color == (113,170,97) or color == (106,170,100):
+    elif color == (113,170,97) or color == (106,170,100) or color==(127,184,74):
       ans+='y'
-    elif color == (120,124,126):
+    elif color == (120,124,126) or color == (165,174,197):
       ans+='n'
     pyautogui.moveTo(positions_of_squares[0][i],positions_of_squares[1][0])
-    time.sleep(0.1)
+    time.sleep(0.2)
 try_num = 1
 while True:
   if ans == 'yyyyy' or try_num==6:
@@ -122,15 +127,16 @@ while True:
     for i in range(0,5):
       color = screenshot.getpixel((positions_of_squares[0][i],positions_of_squares[1][try_num]))
       
-      if color == (255,255,255):
+      if color == (255,255,255) or color==(251,252,255):
         real_word = False
-      elif color == (198,180,81) or color == (201,180,88):
+      elif color == (198,180,81) or color == (201,180,88) or color==(238,193,33):
         ans +='p'
-      elif color == (113,170,97) or color == (106,170,100):
+      elif color == (113,170,97) or color == (106,170,100) or color==(127,184,74):
         ans+='y'
-      elif color == (120,124,126):
+      elif color == (120,124,126) or color == (165,174,197):
         ans+='n'
-    
+      pyautogui.moveTo(positions_of_squares[0][i],positions_of_squares[1][try_num])
+      time.sleep(0.2)
     if real_word:
       break
     for i in range(0,5):
