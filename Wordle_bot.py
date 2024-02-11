@@ -136,24 +136,23 @@ while True:
     words_now = real_word_list[:]
     for i in range(0,len(words_now)):
       ai_guess = words_now[i]
-      pyautogui.moveTo(3000, 1000)
-      pyautogui.click()
 
       #print(ai_guess)
       pyautogui.write(ai_guess, interval=0.25)
       pyautogui.press('enter')
-      time.sleep(2.5)
+      time.sleep(3)
+
       
       real_word = True
       ans = ''        
-      im = pyautogui.screenshot()
+
+      im = pyautogui.screenshot("pic.png")
       if im.getpixel((2974,726)) == (249,184,0):
-        print('done!')
+        time.sleep(1)
         pyautogui.press('enter')
         ans = 'yyyyy'
         break
-      else:
-        print('nope')
+
       for i in range(0,5):
         
         color = im.getpixel((positions_of_squares[0][i], positions_of_squares[1][try_num]))
