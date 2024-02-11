@@ -1,5 +1,8 @@
 import pyautogui
 import time
+
+
+# debug code for identifying positions and colors
 '''
 while True:
     time.sleep(0.1)
@@ -7,17 +10,25 @@ while True:
     #print(pyautogui.position())
     print(im.getpixel(pyautogui.position()))
 '''
+
+# for different websites
+# NYT ->
+# unlimited -> https://wordlegame.org/
 wordle_type = 'unlimited'
 if wordle_type == 'unlimited':
-  positions_of_squares = [(2494,2655,2814,2960,3110),(484,626,790,949,1097,1240)]
+  positions_of_squares = [(2494,2655,2814,2960,3110), (484,626,790,949,1097,1240)]
 else:
-  positions_of_squares = [(2503,2652,2804,2959,3110),(674,813,968,1138,1286,1445)]
+  positions_of_squares = [(2503,2652,2804,2959,3110), (674,813,968,1138,1286,1445)]
 
+
+# get initial word list
 import nltk
 nltk.download('words')
 word_list = [w.lower() for w in list(nltk.corpus.words.words()) if len(w) == 5]
 #word_list = ['trace','aread','cried','dried','fried']
 real_word_list = word_list[:]
+
+
 def possible_words(word, answer):
   global real_word_list
   greens = []
@@ -71,8 +82,8 @@ def possible_words(word, answer):
         except:
           pass
     
-    for j in range(0,len(greys)):
-      for idx in range(0,len(test_word)):
+    for j in range(0, len(greys)):
+      for idx in range(0, len(test_word)):
         if idx in rows:
           if word[greys[j]] == test_word[idx]:
             try:
@@ -100,7 +111,7 @@ for i in range(0,5):
       ans+='y'
     elif color == (120,124,126) or color == (165,174,197):
       ans+='n'
-    pyautogui.moveTo(positions_of_squares[0][i],positions_of_squares[1][0])
+    pyautogui.moveTo(positions_of_squares[0][i], positions_of_squares[1][0])
     time.sleep(0.2)
 try_num = 1
 while True:
@@ -109,7 +120,7 @@ while True:
   possible_words(prev_guess,ans)
   pyautogui.moveTo(3000, 1000)
   pyautogui.click()
-  print('possible words: ',len(real_word_list))
+  print('possible words: ', len(real_word_list))
   for i in range(0,len(real_word_list)):
     ai_guess = real_word_list[i]
     pyautogui.moveTo(3000, 1000)
@@ -123,7 +134,7 @@ while True:
     real_word = True
     ans = ''
     for i in range(0,5):
-      color = screenshot.getpixel((positions_of_squares[0][i],positions_of_squares[1][try_num]))
+      color = screenshot.getpixel((positions_of_squares[0][i], positions_of_squares[1][try_num]))
       
       if color == (255,255,255) or color==(251,252,255):
         real_word = False
@@ -133,7 +144,7 @@ while True:
         ans+='y'
       elif color == (120,124,126) or color == (165,174,197):
         ans+='n'
-      pyautogui.moveTo(positions_of_squares[0][i],positions_of_squares[1][try_num])
+      pyautogui.moveTo(positions_of_squares[0][i], positions_of_squares[1][try_num])
       time.sleep(0.2)
     if real_word:
       break
