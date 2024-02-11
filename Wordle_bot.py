@@ -7,7 +7,7 @@ import time
 while True:
     time.sleep(0.1)
     im = pyautogui.screenshot()
-    #print(pyautogui.position())
+    print(pyautogui.position())
     print(im.getpixel(pyautogui.position()))
 '''
 
@@ -73,8 +73,7 @@ def possible_words(word, answer):
           else:
             if test_word[idx] == word[yellows[j]]:
               is_it_in = 1
-              if not is_it_in:
-                rows.remove(idx)
+              rows.remove(idx)
 
       if is_it_in == 0:
         try:
@@ -91,51 +90,26 @@ def possible_words(word, answer):
             except:
               pass
               
-    
-prev_guess = 'trace'
-#print('trace')
-pyautogui.moveTo(3000, 1000)
-pyautogui.click()
-pyautogui.write('trace', interval=0.25)
-pyautogui.press('enter')
-time.sleep(2)
-screenshot = pyautogui.screenshot()
-ans = ''
-for i in range(0,5):
-    color = screenshot.getpixel((positions_of_squares[0][i],positions_of_squares[1][0]))
-    if color == (255,255,255) or color==(251,252,255):
-      real_word = False
-    elif color == (198,180,81) or color == (201,180,88) or color==(238,193,33):
-      ans +='p'
-    elif color == (113,170,97) or color == (106,170,100) or color==(127,184,74):
-      ans+='y'
-    elif color == (120,124,126) or color == (165,174,197):
-      ans+='n'
-    pyautogui.moveTo(positions_of_squares[0][i], positions_of_squares[1][0])
-    time.sleep(0.2)
-try_num = 1
 while True:
-  if ans == 'yyyyy' or try_num==6:
-    break
-  possible_words(prev_guess,ans)
+  import nltk
+  nltk.download('words')
+  nltk.download('wordnet')
+  word_list = [w.lower() for w in list(nltk.corpus.words.words())+list(nltk.corpus.wordnet.words()) if len(w) == 5]
+  #word_list = ['trace','aread','cried','dried','fried']
+  real_word_list = word_list[:]
+  prev_guess = 'trace'
+  pyautogui.press('enter')
+  #print('trace')
   pyautogui.moveTo(3000, 1000)
-  pyautogui.click()
-  print('possible words: ', len(real_word_list))
-  for i in range(0,len(real_word_list)):
-    ai_guess = real_word_list[i]
-    pyautogui.moveTo(3000, 1000)
-    pyautogui.click()
 
-    #print(ai_guess)
-    pyautogui.write(ai_guess, interval=0.25)
-    pyautogui.press('enter')
-    time.sleep(2)
-    screenshot = pyautogui.screenshot()
-    real_word = True
-    ans = ''
-    for i in range(0,5):
-      color = screenshot.getpixel((positions_of_squares[0][i], positions_of_squares[1][try_num]))
-      
+  pyautogui.click()
+  pyautogui.write('trace', interval=0.25)
+  pyautogui.press('enter')
+  time.sleep(2)
+  screenshot = pyautogui.screenshot()
+  ans = ''
+  for i in range(0,5):
+      color = screenshot.getpixel((positions_of_squares[0][i],positions_of_squares[1][0]))
       if color == (255,255,255) or color==(251,252,255):
         real_word = False
       elif color == (198,180,81) or color == (201,180,88) or color==(238,193,33):
@@ -144,18 +118,67 @@ while True:
         ans+='y'
       elif color == (120,124,126) or color == (165,174,197):
         ans+='n'
-      pyautogui.moveTo(positions_of_squares[0][i], positions_of_squares[1][try_num])
-      time.sleep(0.2)
-    if real_word:
+      #pyautogui.moveTo(positions_of_squares[0][i], positions_of_squares[1][0])
+      #time.sleep(0.2)
+  try_num = 1
+  while True:
+    time.sleep(0.1)
+
+    
+
+    
+    if ans == 'yyyyy' or try_num==6:
       break
-    for i in range(0,5):
+    possible_words(prev_guess,ans)
+    pyautogui.moveTo(3000, 1000)
+    pyautogui.click()
+    print('possible words: ', len(real_word_list))
+    words_now = real_word_list[:]
+    for i in range(0,len(words_now)):
+      ai_guess = words_now[i]
       pyautogui.moveTo(3000, 1000)
       pyautogui.click()
-      pyautogui.press('backspace')
-      
-      time.sleep(0.1)
-    real_word_list.remove(ai_guess)
 
-  prev_guess= ai_guess
-  try_num+=1
-#print(ans,real_word_list,try_num)
+      #print(ai_guess)
+      pyautogui.write(ai_guess, interval=0.25)
+      pyautogui.press('enter')
+      time.sleep(2.5)
+      
+      real_word = True
+      ans = ''        
+      im = pyautogui.screenshot()
+      if im.getpixel((2974,726)) == (249,184,0):
+        print('done!')
+        pyautogui.press('enter')
+        ans = 'yyyyy'
+        break
+      else:
+        print('nope')
+      for i in range(0,5):
+        
+        color = im.getpixel((positions_of_squares[0][i], positions_of_squares[1][try_num]))
+        
+        if color == (255,255,255) or color==(251,252,255):
+          real_word = False
+        elif color == (198,180,81) or color == (201,180,88) or color==(238,193,33):
+          ans +='p'
+        elif color == (113,170,97) or color == (106,170,100) or color==(127,184,74):
+          ans+='y'
+        elif color == (120,124,126) or color == (165,174,197):
+          ans+='n'
+        #pyautogui.moveTo(positions_of_squares[0][i], positions_of_squares[1][try_num])
+        #time.sleep(0.2)
+      if real_word:
+        break
+      for i in range(0,5):
+        pyautogui.moveTo(3000, 1000)
+        pyautogui.click()
+        pyautogui.press('backspace')
+        
+        time.sleep(0.1)
+      real_word_list.remove(ai_guess)
+
+    prev_guess= ai_guess
+    try_num+=1
+  time.sleep(1)
+
