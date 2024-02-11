@@ -16,7 +16,6 @@ else:
 import nltk
 nltk.download('words')
 word_list = [w.lower() for w in list(nltk.corpus.words.words()) if len(w) == 5]
-print("drank" in word_list)
 #word_list = ['trace','aread','cried','dried','fried']
 real_word_list = word_list[:]
 def possible_words(word, answer):
@@ -24,7 +23,6 @@ def possible_words(word, answer):
   greens = []
   yellows = []
   greys = []
-  print(answer)
   for i in range(0, len(answer)):
     if answer[i] == 'y':
       greens.append(i)
@@ -58,7 +56,6 @@ def possible_words(word, answer):
             if test_word[yellows[j]] == word[yellows[j]]:
               try:
                 real_word_list.remove(test_word)
-                print(test_word)
                 
               except:
                 pass
@@ -85,7 +82,7 @@ def possible_words(word, answer):
               
     
 prev_guess = 'trace'
-print('trace')
+#print('trace')
 pyautogui.moveTo(3000, 1000)
 pyautogui.click()
 pyautogui.write('trace', interval=0.25)
@@ -112,12 +109,13 @@ while True:
   possible_words(prev_guess,ans)
   pyautogui.moveTo(3000, 1000)
   pyautogui.click()
+  print('possible words: ',len(real_word_list))
   for i in range(0,len(real_word_list)):
     ai_guess = real_word_list[i]
     pyautogui.moveTo(3000, 1000)
     pyautogui.click()
 
-
+    #print(ai_guess)
     pyautogui.write(ai_guess, interval=0.25)
     pyautogui.press('enter')
     time.sleep(2)
@@ -145,7 +143,8 @@ while True:
       pyautogui.press('backspace')
       
       time.sleep(0.1)
+    real_word_list.remove(ai_guess)
 
   prev_guess= ai_guess
   try_num+=1
-print(ans,real_word_list,try_num)
+#print(ans,real_word_list,try_num)
