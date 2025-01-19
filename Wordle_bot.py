@@ -5,7 +5,7 @@ import time
 # debug code for identifying positions and colors
 '''
 while True:
-    time.sleep(0.1)
+    time.sleep(1)
     im = pyautogui.screenshot()
     print(pyautogui.position())
     print(im.getpixel(pyautogui.position()))
